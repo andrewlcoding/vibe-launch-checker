@@ -37,11 +37,8 @@ jobs:
       - name: Run automated tests
         run: npm test
 
-      - name: Create JSON report
-        run: npm run scan -- ./demo-unsafe-app --json
-
-      - name: Create HTML report
-        run: npm run report
+      - name: Create JSON and HTML reports
+        run: npm run scan -- ./demo-unsafe-app --report
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v7
