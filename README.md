@@ -125,6 +125,20 @@ vibe-launch-report.json
 vibe-launch-report.html
 ```
 
+## Command help
+
+Show all available options:
+
+```bash
+vibe-check --help
+```
+
+Current options:
+
+- `--json` creates a JSON report
+- `--report` creates JSON and HTML reports
+- `--help` or `-h` displays usage instructions
+
 ## Important limitation
 
 This is an early proof of concept. It checks only a small number of patterns and does not guarantee that an application is secure.

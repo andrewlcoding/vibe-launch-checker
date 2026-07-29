@@ -14,6 +14,7 @@ import {
 } from "./config.js";
 
 import { createHtmlReport } from "./report-generator.js";
+import { printHelp } from "./help.js";
 
 type Severity = "HIGH" | "MEDIUM" | "LOW";
 
@@ -251,6 +252,14 @@ async function saveJsonReport(
 
 async function main(): Promise<void> {
   const argumentsList = process.argv.slice(2);
+
+  if (
+    argumentsList.includes("--help") ||
+    argumentsList.includes("-h")
+  ) {
+    printHelp();
+    return;
+  }
 
   const targetArgument = argumentsList.find(
     (argument) => !argument.startsWith("--"),

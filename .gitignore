@@ -8,3 +8,5 @@ coverage/
 vibe-launch-report.json
 vibe-launch-report.html
 reports/
+*.tgz
+package-test/
