@@ -7,6 +7,7 @@ A beginner-friendly local scanner for common launch risks in AI-built web applic
 - Hardcoded secret-like values
 - Unfinished authentication or security TODOs
 - Wildcard CORS configurations
+- Localhost URLs left in source code
 
 ## Run the unsafe demonstration
 
