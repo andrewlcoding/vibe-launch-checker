@@ -1,0 +1,13 @@
+{
+  "ignoredFolders": [
+    "tmp",
+    "generated"
+  ],
+  "reportDirectory": "reports",
+  "checks": {
+    "hardcodedSecrets": true,
+    "securityTodos": true,
+    "wildcardCors": true,
+    "localhostUrls": true
+  }
+}
