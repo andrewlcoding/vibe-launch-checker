@@ -63,6 +63,7 @@ function scanFile(
 ): Finding[] {
   const findings: Finding[] = [];
   const lines = content.split(/\r?\n/);
+
   const displayedFile = path
     .relative(projectRoot, filePath)
     .replaceAll("\\", "/");
@@ -78,6 +79,9 @@ function scanFile(
 
     const wildcardCorsPattern =
       /origin\s*:\s*["']\*["']|Access-Control-Allow-Origin\s*[:=]\s*["']?\*/i;
+
+    const localhostPattern =
+      /https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?/i;
 
     if (hardcodedSecretPattern.test(line)) {
       findings.push({
@@ -101,7 +105,7 @@ function scanFile(
         file: displayedFile,
         line: lineNumber,
         explanation:
-          "The code contains a TODO or FIXME related to authentication, authorization, permissions, administration, or security.",
+          "The code contains unfinished work related to authentication, authorization, permissions, administration, or security.",
         remediation:
           "Finish and test the security requirement before launching the application.",
       });
@@ -118,6 +122,20 @@ function scanFile(
           "The application appears to allow requests from every website.",
         remediation:
           "Replace the wildcard with a list of trusted application domains.",
+      });
+    }
+
+    if (localhostPattern.test(line)) {
+      findings.push({
+        id: `localhost-url-${displayedFile}-${lineNumber}`,
+        title: "Localhost URL left in source code",
+        severity: "MEDIUM",
+        file: displayedFile,
+        line: lineNumber,
+        explanation:
+          "The code contains a localhost URL that will usually fail after deployment.",
+        remediation:
+          "Replace the local URL with the production URL or read it from an environment variable.",
       });
     }
   });
@@ -163,6 +181,7 @@ async function main(): Promise<void> {
 
     for (const file of files) {
       const content = await readFile(file, "utf8");
+
       findings.push(...scanFile(file, content, projectRoot));
     }
 
