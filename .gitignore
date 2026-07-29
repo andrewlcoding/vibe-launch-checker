@@ -6,3 +6,4 @@ build/
 coverage/
 *.log
 vibe-launch-report.json
+vibe-launch-report.html

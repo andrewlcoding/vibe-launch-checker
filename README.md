@@ -69,6 +69,26 @@ npm run typecheck
 
 A successful typecheck returns to the terminal without showing an `error TS` message.
 
+## Create an HTML report
+
+First create the JSON report:
+
+```bash
+npm run scan -- ./demo-unsafe-app --json
+```
+
+Then create the HTML report:
+
+```bash
+npm run report
+```
+
+Open this generated file in a browser:
+
+```text
+vibe-launch-report.html
+```
+
 ## Important limitation
 
 This is an early proof of concept. It checks only a small number of patterns and does not guarantee that an application is secure.
