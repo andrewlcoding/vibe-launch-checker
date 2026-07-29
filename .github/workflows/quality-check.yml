@@ -44,6 +44,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: vibe-launch-report
-          path: vibe-launch-report.html
+          path: reports/vibe-launch-report.html
           if-no-files-found: error
           retention-days: 7
