@@ -1,4 +1,4 @@
-import { readdir, readFile } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 type Severity = "HIGH" | "MEDIUM" | "LOW";
@@ -11,6 +11,13 @@ type Finding = {
   line: number;
   explanation: string;
   remediation: string;
+};
+
+type ScanReport = {
+  scannedAt: string;
+  project: string;
+  totalFindings: number;
+  findings: Finding[];
 };
 
 const allowedExtensions = new Set([
@@ -163,8 +170,31 @@ function printReport(findings: Finding[]): void {
   console.log(`${findings.length} finding(s) detected.\n`);
 }
 
+async function saveJsonReport(
+  projectRoot: string,
+  findings: Finding[],
+): Promise<void> {
+  const report: ScanReport = {
+    scannedAt: new Date().toISOString(),
+    project: path.basename(projectRoot),
+    totalFindings: findings.length,
+    findings,
+  };
+
+  const reportPath = path.resolve("vibe-launch-report.json");
+
+  await writeFile(
+    reportPath,
+    JSON.stringify(report, null, 2),
+    "utf8",
+  );
+
+  console.log(`JSON report saved to: ${reportPath}\n`);
+}
+
 async function main(): Promise<void> {
   const targetArgument = process.argv[2];
+  const shouldSaveJson = process.argv.includes("--json");
 
   if (!targetArgument) {
     console.error(
@@ -186,6 +216,10 @@ async function main(): Promise<void> {
     }
 
     printReport(findings);
+
+    if (shouldSaveJson) {
+      await saveJsonReport(projectRoot, findings);
+    }
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown scanning error";
