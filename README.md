@@ -2,6 +2,34 @@
 
 A beginner-friendly local scanner for common launch risks in AI-built web applications.
 
+## Quick start
+
+Open a terminal inside the project you want to scan.
+
+Create the optional configuration:
+
+```bash
+vibe-check init
+```
+
+Scan the current project and create both reports:
+
+```bash
+vibe-check --report
+```
+
+The reports are saved inside:
+
+```text
+reports/
+```
+
+You can still scan a different folder:
+
+```bash
+vibe-check ./another-project --report
+```
+
 ## Current checks
 
 - Hardcoded secret-like values

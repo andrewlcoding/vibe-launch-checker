@@ -1,4 +1,9 @@
-import { readFile } from "node:fs/promises";
+import {
+  access,
+  readFile,
+  writeFile,
+} from "node:fs/promises";
+
 import path from "node:path";
 
 export type CheckSettings = {
@@ -20,12 +25,15 @@ type UserConfig = {
   checks?: unknown;
 };
 
+const configFileName = "vibe-check.config.json";
+
 const defaultIgnoredFolders = [
   "node_modules",
   ".git",
   "dist",
   "build",
   "coverage",
+  "reports",
 ];
 
 const defaultChecks: CheckSettings = {
@@ -35,11 +43,29 @@ const defaultChecks: CheckSettings = {
   localhostUrls: true,
 };
 
+const newConfigContents = {
+  ignoredFolders: [
+    "tmp",
+    "generated",
+  ],
+  reportDirectory: "reports",
+  checks: {
+    hardcodedSecrets: true,
+    securityTodos: true,
+    wildcardCors: true,
+    localhostUrls: true,
+  },
+};
+
 function createDefaultConfig(): AppConfig {
   return {
     ignoredFolders: new Set(defaultIgnoredFolders),
-    reportDirectory: process.cwd(),
-    checks: { ...defaultChecks },
+
+    reportDirectory: path.resolve("reports"),
+
+    checks: {
+      ...defaultChecks,
+    },
   };
 }
 
@@ -49,8 +75,51 @@ function isRecord(
   return typeof value === "object" && value !== null;
 }
 
+function getErrorCode(error: unknown): string | undefined {
+  if (
+    error instanceof Error &&
+    "code" in error &&
+    typeof error.code === "string"
+  ) {
+    return error.code;
+  }
+
+  return undefined;
+}
+
+export async function createConfigFile(): Promise<{
+  configPath: string;
+  created: boolean;
+}> {
+  const configPath = path.resolve(configFileName);
+
+  try {
+    await access(configPath);
+
+    return {
+      configPath,
+      created: false,
+    };
+  } catch (error) {
+    if (getErrorCode(error) !== "ENOENT") {
+      throw error;
+    }
+  }
+
+  await writeFile(
+    configPath,
+    `${JSON.stringify(newConfigContents, null, 2)}\n`,
+    "utf8",
+  );
+
+  return {
+    configPath,
+    created: true,
+  };
+}
+
 export async function loadConfig(): Promise<AppConfig> {
-  const configPath = path.resolve("vibe-check.config.json");
+  const configPath = path.resolve(configFileName);
   const config = createDefaultConfig();
 
   let text: string;
@@ -58,14 +127,7 @@ export async function loadConfig(): Promise<AppConfig> {
   try {
     text = await readFile(configPath, "utf8");
   } catch (error) {
-    const code =
-      error instanceof Error &&
-      "code" in error &&
-      typeof error.code === "string"
-        ? error.code
-        : undefined;
-
-    if (code === "ENOENT") {
+    if (getErrorCode(error) === "ENOENT") {
       return config;
     }
 
@@ -92,7 +154,10 @@ export async function loadConfig(): Promise<AppConfig> {
 
   if (Array.isArray(userConfig.ignoredFolders)) {
     for (const folder of userConfig.ignoredFolders) {
-      if (typeof folder === "string" && folder.trim() !== "") {
+      if (
+        typeof folder === "string" &&
+        folder.trim() !== ""
+      ) {
         config.ignoredFolders.add(folder);
       }
     }
@@ -116,15 +181,18 @@ export async function loadConfig(): Promise<AppConfig> {
     }
 
     if (typeof checks.securityTodos === "boolean") {
-      config.checks.securityTodos = checks.securityTodos;
+      config.checks.securityTodos =
+        checks.securityTodos;
     }
 
     if (typeof checks.wildcardCors === "boolean") {
-      config.checks.wildcardCors = checks.wildcardCors;
+      config.checks.wildcardCors =
+        checks.wildcardCors;
     }
 
     if (typeof checks.localhostUrls === "boolean") {
-      config.checks.localhostUrls = checks.localhostUrls;
+      config.checks.localhostUrls =
+        checks.localhostUrls;
     }
   }
 

@@ -10,6 +10,7 @@ import {
 import path from "node:path";
 import {
   type AppConfig,
+  createConfigFile,
   loadConfig,
 } from "./config.js";
 
@@ -260,10 +261,38 @@ async function main(): Promise<void> {
     printHelp();
     return;
   }
+  if (argumentsList[0] === "init") {
+    try {
+      const result = await createConfigFile();
 
-  const targetArgument = argumentsList.find(
-    (argument) => !argument.startsWith("--"),
-  );
+      if (result.created) {
+        console.log(
+          `Configuration created: ${result.configPath}`,
+        );
+      } else {
+        console.log(
+          `Configuration already exists: ${result.configPath}`,
+        );
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unknown configuration error";
+
+      console.error(
+        `Could not create configuration: ${message}`,
+      );
+
+      process.exitCode = 1;
+    }
+
+    return;
+  }
+    const targetArgument =
+    argumentsList.find(
+      (argument) => !argument.startsWith("--"),
+    ) ?? ".";
 
   const shouldSaveJson =
     argumentsList.includes("--json") ||
@@ -272,14 +301,7 @@ async function main(): Promise<void> {
   const shouldSaveHtml =
     argumentsList.includes("--report");
 
-  if (!targetArgument) {
-    console.error(
-      "Missing folder. Example: vibe-check ./demo-unsafe-app",
-    );
-
-    process.exitCode = 1;
-    return;
-  }
+  
 
   const projectRoot = path.resolve(targetArgument);
 
