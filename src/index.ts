@@ -2,6 +2,7 @@
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createHtmlReport } from "./report-generator.js";
 
 type Severity = "HIGH" | "MEDIUM" | "LOW";
 
@@ -175,7 +176,7 @@ function printReport(findings: Finding[]): void {
 async function saveJsonReport(
   projectRoot: string,
   findings: Finding[],
-): Promise<void> {
+): Promise<string> {
   const report: ScanReport = {
     scannedAt: new Date().toISOString(),
     project: path.basename(projectRoot),
@@ -191,17 +192,27 @@ async function saveJsonReport(
     "utf8",
   );
 
-  console.log(`JSON report saved to: ${reportPath}\n`);
+  console.log(`JSON report saved to: ${reportPath}`);
+
+  return reportPath;
 }
 
 async function main(): Promise<void> {
   const targetArgument = process.argv[2];
-  const shouldSaveJson = process.argv.includes("--json");
+
+  const shouldSaveJson =
+    process.argv.includes("--json") ||
+    process.argv.includes("--report");
+
+  const shouldSaveHtml =
+    process.argv.includes("--report");
 
   if (!targetArgument) {
     console.error(
-      "Missing folder. Example: npm run scan -- ./demo-unsafe-app",
+      "Missing folder. Example: vibe-check ./demo-unsafe-app",
     );
+
+    process.exitCode = 1;
     return;
   }
 
@@ -220,13 +231,23 @@ async function main(): Promise<void> {
     printReport(findings);
 
     if (shouldSaveJson) {
-      await saveJsonReport(projectRoot, findings);
+      const jsonPath = await saveJsonReport(
+        projectRoot,
+        findings,
+      );
+
+      if (shouldSaveHtml) {
+        const htmlPath = await createHtmlReport(jsonPath);
+
+        console.log(`HTML report created: ${htmlPath}`);
+      }
     }
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown scanning error";
 
     console.error(`Could not scan the folder: ${message}`);
+    process.exitCode = 1;
   }
 }
 

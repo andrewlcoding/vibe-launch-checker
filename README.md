@@ -110,6 +110,21 @@ Save a JSON report:
 vibe-check ./demo-unsafe-app --json
 ```
 
+## Create JSON and HTML reports together
+
+Run:
+
+```bash
+vibe-check ./demo-unsafe-app --report
+```
+
+This creates both:
+
+```text
+vibe-launch-report.json
+vibe-launch-report.html
+```
+
 ## Important limitation
 
 This is an early proof of concept. It checks only a small number of patterns and does not guarantee that an application is secure.

@@ -29,6 +29,7 @@ describe("Vibe Launch Checker", () => {
     );
     expect(output).toContain("Wildcard CORS configuration");
     expect(output).toContain("Localhost URL left in source code");
+    expect(output).not.toContain("Could not scan the folder");
   });
 
   it("detects no findings in the safe demo", () => {
