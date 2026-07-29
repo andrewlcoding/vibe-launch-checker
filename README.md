@@ -89,6 +89,27 @@ Open this generated file in a browser:
 vibe-launch-report.html
 ```
 
+## Use as a command
+
+Build and install the command locally:
+
+```bash
+npm run build
+npm link
+```
+
+Scan a project:
+
+```bash
+vibe-check ./demo-unsafe-app
+```
+
+Save a JSON report:
+
+```bash
+vibe-check ./demo-unsafe-app --json
+```
+
 ## Important limitation
 
 This is an early proof of concept. It checks only a small number of patterns and does not guarantee that an application is secure.

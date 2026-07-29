@@ -7,7 +7,8 @@
     "test": "vitest run",
     "scan": "tsx src/index.ts",
     "typecheck": "tsc --noEmit",
-    "report": "tsx src/html-report.ts"
+    "report": "tsx src/html-report.ts",
+    "build": "tsc -p tsconfig.build.json"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,11 @@
     "tsx": "^4.23.1",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10"
-  }
+  },
+  "bin": {
+    "vibe-check": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ]
 }
