@@ -288,19 +288,19 @@ function HomePage() {
           <span className="wordmark-icon">
             <ShieldCheck size={18} strokeWidth={2.1} />
           </span>
-          <span>Vibe Launch Checker</span>
+          <span>App Runway</span>
         </a>
 
         <nav aria-label="Main navigation">
           <Link to="/scan">Scanner</Link>
-         <a href="#why">Why it exists</a>
+         <a href="#why">Why AppRunway</a>
           <a href="#checks">Checks</a>
           <a href="#process">Process</a>
           <a href="#example">Example</a>
         </nav>
 
         <Link className="header-action" to="/scan">
-  Open scanner
+  Run preflight
   <ArrowRight size={15} />
 </Link>
       </header>
@@ -318,14 +318,15 @@ function HomePage() {
             </p>
 
             <h1>
-              Your app should be tested before it becomes
-              someone else’s problem.
+              Know what could break before you launch.
             </h1>
 
             <p className="hero-intro">
-              Scan code for common launch mistakes, understand
-              what matters, and copy a focused repair prompt
-              into the coding tool you already use.
+              Scan your AI-built app locally for exposed secrets,
+unfinished security work, development settings, and
+other common launch blockers. AppRunway explains each
+finding and creates repair instructions for your coding
+agent.
             </p>
 
             <div className="hero-actions">
@@ -639,18 +640,19 @@ function HomePage() {
 <section className="product-value" id="why">
   <div className="product-value-heading">
     <p className="section-label">
-      WHY VIBE LAUNCH CHECKER
+      WHY APPRUNWAY
     </p>
 
     <h2>
-      Built for people shipping apps with AI.
+      A private preflight checker for AI-built apps.
     </h2>
 
     <p>
-      AI coding tools can build features faster than many
-      people can review security settings, configuration,
-      and production details. Vibe Launch Checker provides
-      a simple final review before an app goes live.
+      AI coding tools make it possible to build an app
+      quickly, but they do not guarantee that the project
+      is ready for production. AppRunway reviews your
+      selected project files for common launch blockers
+      before your app goes live.
     </p>
   </div>
 
@@ -658,42 +660,51 @@ function HomePage() {
     <article>
       <span>01</span>
       <h3>Private by default</h3>
+
       <p>
-        Your selected project files are reviewed inside
-        the browser instead of being uploaded to our
-        server.
+        Your project is reviewed locally inside your
+        browser. The current version does not upload your
+        source code to an AppRunway server.
       </p>
     </article>
 
     <article>
       <span>02</span>
-      <h3>Clear explanations</h3>
+      <h3>Built for AI builders</h3>
+
       <p>
-        Findings are written in plain language so you can
-        understand what was detected and why it matters.
+        AppRunway is designed for people building with
+        Codex, Claude Code, Cursor, Lovable, Replit, Bolt,
+        v0, and other AI development tools.
       </p>
     </article>
 
     <article>
       <span>03</span>
-      <h3>Agent-ready repairs</h3>
+      <h3>From finding to fix</h3>
+
       <p>
-        Copy repair prompts containing the file, line,
-        flagged code, explanation, and recommended change.
+        Every result includes the file, line number,
+        flagged code, explanation, and a repair prompt you
+        can paste into your coding agent.
       </p>
     </article>
   </div>
 
   <div className="product-value-note">
-    <strong>Designed for:</strong>
-    people building with Codex, Claude Code, Cursor,
-    Replit, and other AI coding tools.
+    <strong>Why choose AppRunway?</strong>
+    It focuses on the final gap between building an app
+    and safely launching it. Instead of overwhelming
+    beginners with an enterprise security dashboard, it
+    provides a simple preflight workflow: select your
+    project, understand the risks, and copy the fixes.
   </div>
 
   <p className="product-limitation">
-    Vibe Launch Checker helps identify common launch
-    mistakes. It does not replace complete testing or a
-    professional security review.
+    AppRunway helps identify common launch mistakes. It
+    does not guarantee complete application security and
+    does not replace testing or a professional security
+    review.
   </p>
 </section>
 
@@ -893,7 +904,7 @@ function HomePage() {
           <span className="wordmark-icon">
             <ShieldCheck size={18} />
           </span>
-          <span>Vibe Launch Checker</span>
+          <span>App Runway</span>
         </a>
 
         <p>

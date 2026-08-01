@@ -382,7 +382,7 @@ ${finding.fix}`;
           })
           .join("\n\n---\n\n");
 
-  const report = `# Vibe Launch Checker Report
+  const report = `# App Runway Report
 
 Generated: ${generatedAt}
 
@@ -400,7 +400,7 @@ ${findingSections}
 
 ---
 
-This automated scan checks only the rules currently supported by Vibe Launch Checker. It does not guarantee that an application is completely secure.
+This automated scan checks only the rules currently supported by App Runway. It does not guarantee that an application is completely secure.
 `;
 
   const reportFile = new Blob([report], {
@@ -431,7 +431,7 @@ This automated scan checks only the rules currently supported by Vibe Launch Che
           <span>
             <ShieldCheck size={18} />
           </span>
-          Vibe Launch Checker
+          App Runway
         </Link>
 
         <Link className="back-link" to="/">
@@ -443,11 +443,11 @@ This automated scan checks only the rules currently supported by Vibe Launch Che
       <main className="scan-layout">
         <section className="scan-main">
           <div className="scan-heading">
-            <p>PRIVATE BROWSER SCAN</p>
-            <h1>Review a project before launch.</h1>
+            <p>PRIVATE APP PREFLIGHT</p>
+            <h1>Check your app before it takes off.</h1>
             <span>
-              Choose a project folder, run the scan, and
-              review each matching issue.
+              Choose your project folder, run a private preflight,
+and review anything that may block a safe launch.
             </span>
           </div>
 
@@ -503,7 +503,7 @@ This automated scan checks only the rules currently supported by Vibe Launch Che
               ) : (
                 <>
                   <ScanLine size={17} />
-                  Run launch scan
+                  Run app preflight
                 </>
               )}
             </button>
